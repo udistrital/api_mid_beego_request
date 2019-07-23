@@ -7,47 +7,11 @@ import (
 
 func init() {
 
-    beego.GlobalControllerRouter["github.com/udistrital/api_mid_beego_request/controllers:ObjectController"] = append(beego.GlobalControllerRouter["github.com/udistrital/api_mid_beego_request/controllers:ObjectController"],
+    beego.GlobalControllerRouter["github.com/udistrital/api_mid_beego_request/controllers:FuncionalidadMidController"] = append(beego.GlobalControllerRouter["github.com/udistrital/api_mid_beego_request/controllers:FuncionalidadMidController"],
         beego.ControllerComments{
-            Method: "Post",
-            Router: `/`,
-            AllowHTTPMethods: []string{"post"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["github.com/udistrital/api_mid_beego_request/controllers:ObjectController"] = append(beego.GlobalControllerRouter["github.com/udistrital/api_mid_beego_request/controllers:ObjectController"],
-        beego.ControllerComments{
-            Method: "GetAll",
-            Router: `/`,
+            Method: "GetUser",
+            Router: `/:id`,
             AllowHTTPMethods: []string{"get"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["github.com/udistrital/api_mid_beego_request/controllers:ObjectController"] = append(beego.GlobalControllerRouter["github.com/udistrital/api_mid_beego_request/controllers:ObjectController"],
-        beego.ControllerComments{
-            Method: "Get",
-            Router: `/:objectId`,
-            AllowHTTPMethods: []string{"get"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["github.com/udistrital/api_mid_beego_request/controllers:ObjectController"] = append(beego.GlobalControllerRouter["github.com/udistrital/api_mid_beego_request/controllers:ObjectController"],
-        beego.ControllerComments{
-            Method: "Put",
-            Router: `/:objectId`,
-            AllowHTTPMethods: []string{"put"},
-            MethodParams: param.Make(),
-            Filters: nil,
-            Params: nil})
-
-    beego.GlobalControllerRouter["github.com/udistrital/api_mid_beego_request/controllers:ObjectController"] = append(beego.GlobalControllerRouter["github.com/udistrital/api_mid_beego_request/controllers:ObjectController"],
-        beego.ControllerComments{
-            Method: "Delete",
-            Router: `/:objectId`,
-            AllowHTTPMethods: []string{"delete"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
