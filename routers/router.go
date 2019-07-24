@@ -20,6 +20,11 @@ func init() {
 				&controllers.UserController{},
 			),
 		),
+		beego.NSNamespace("/funcionalidad_mid",
+			beego.NSInclude(
+				&controllers.FuncionalidadMidController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

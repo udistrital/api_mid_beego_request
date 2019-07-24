@@ -1,11 +1,11 @@
 package controllers
 
 import (
+	"errors"
 	"strconv"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
-	"github.com/udistrital/api_beego_request/models"
 	"github.com/udistrital/utils_oas/request"
 )
 
@@ -30,7 +30,8 @@ func (c *FuncionalidadMidController) URLMapping() {
 func (c *FuncionalidadMidController) GetUser() {
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
-	v, err := models.GetUsuarioById(id) // funcion
+	v, err := getUserAgora(id) // funcion getUserAgora
+	logs.Info("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
 	if err != nil {
 		logs.Error(err)
 		//c.Data["development"] = map[string]interface{}{"Code": "000", "Body": err.Error(), "Type": "error"}
@@ -43,15 +44,29 @@ func (c *FuncionalidadMidController) GetUser() {
 }
 
 // get Información de Usuario del sistema Agora
-func getUserAgora(idUser int64) (dataUser interface{}, outputError map[string]interface{}) {
-	if idUser != 0 {
-		if err := request.GetJson("http://localhost:8080/v1/usuario", &dataUser); err == nil {
-
+func getUserAgora(idUser int) (dataUser interface{}, outputError map[string]interface{}) {
+	if idUser != 0 { // (1) error parametro
+		logs.Info("PPPP")
+		logs.Info("http://localhost:8080/v1/usuario/" + strconv.Itoa(idUser))
+		logs.Info("PPPP")
+		if response, err := request.GetJsonTest("http://localhost:8080/v1/usuario/"+strconv.Itoa(idUser), &dataUser); err == nil { // (2) error servicio
+			if response.StatusCode == 200 { // (3) error estado de la solicitud
+				return dataUser, nil
+			} else {
+				logs.Info("Error (3) Servicio")
+				logs.Info(response)
+				outputError = map[string]interface{}{"Function": "getUserAgora", "Error": response.Body.(interface{})}
+				return nil, outputError
+			}
+		} else {
+			logs.Info("Error (2) Servicio")
+			outputError = map[string]interface{}{"Code": err}
+			return outputError, nil
 		}
-		outputError = map[string]interface{}{"Code": "E_0458", "Body": "Not enough parameter in pagoSsPorPersona", "Type": "error"}
-		return outputError, nil
 	} else {
-		outputError = map[string]interface{}{"Code": "E_0458", "Body": "Not enough parameter in pagoSsPorPersona", "Type": "error"}
+		logs.Info("Error (1) Parametro")
+		err1 := errors.New("math: null parameter")
+		outputError = map[string]interface{}{"Code": err1}
 		return nil, outputError
 	}
 }
